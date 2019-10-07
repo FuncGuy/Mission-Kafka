@@ -1,0 +1,77 @@
+Kafka steps:
+
+1) start the zookeeper:
+
+ ~/kafka_2.12-2.3.0$ (<- should be in the folder)
+bin/zookeeper-server-start.sh config/zookeeper.properties 
+
+
+2) start the kafka server
+~/kafka_2.12-2.3.0$ (<- should be in the folder)
+kafka-server-start.sh config/server.properties 
+
+How to create a Topic?
+
+kafka-topics.sh --zookeeper 127.0.0.1:2181 --topic first_topic --create --partitions 3 --replication-factor 1
+
+How to list a topics?
+
+kafka-topics.sh --zookeeper 127.0.0.1:2181 –list
+
+How to delete a topic?
+
+kafka-topics.sh --zookeeper 127.0.0.1:2181 --topic second_topic –delete
+
+
+How to start producer?
+
+Producer needs broker and topic to write the data.
+
+kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic first_topic
+
+after executing this command you can start write to topic.
+
+How to acknowledge to all?
+
+kafka-cons-producer.sh --broker-list 127.0.0.1:9092 --topic first_topic --producer-property acks=all
+
+How to crate topic dynamically while writing from producer?
+
+kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic new_topic
+
+Note:
+beacause the election is not happend 
+
+1) since you are creating topic dynamically there are no leaders available for it so you will get a warning message.
+
+leader election will happen when you start sending the message...
+
+2) producer is able to recover from errors.. once you see the above error and still you can wrtie to the newly created topic  
+
+3)  if you list of topics you will see new topic.
+
+ -> By default the dynamically crated topic will be having 1 partition 
+ -> if you want to change the default partition open “nano config/server.properties”
+->  under “LOG BASICS” change the number of partitions to as many you want.
+-> and finally restart the kafka server to reflect the changes.
+
+Consumers:[Read message from producer when producer is active and sending]
+
+1) To consume a message from producer:
+
+“first_topic” is the topic name where producer is writing to
+
+kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic first_topic
+
+
+1) Consumers:[Read All message from producer]
+
+kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic first_topic –from-beginning
+
+
+2) Consumer Groups:
+
+Creating a consumer group:
+
+kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic first_topic --group my-first-application
+
