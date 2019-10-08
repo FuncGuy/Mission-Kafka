@@ -38,7 +38,6 @@ public class ProducerDemoWithCallback {
 
         for(int i =0 ;i<10; i++) {
 
-
             ProducerRecord<String, String> record = new ProducerRecord<String, String>("first_topic", "Hello World" + Integer.valueOf(i));
 
             // Send Data - Asynchronous
