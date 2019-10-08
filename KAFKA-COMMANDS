@@ -6,7 +6,7 @@ Kafka steps:
 bin/zookeeper-server-start.sh config/zookeeper.properties 
 
 
-2) start the kafka server
+2) start the kafka server:
 ~/kafka_2.12-2.3.0$ (<- should be in the folder)
 kafka-server-start.sh config/server.properties 
 
@@ -74,4 +74,19 @@ kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic first_topic 
 Creating a consumer group:
 
 kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic first_topic --group my-first-application
+
+
+
+3) List all consumers:
+kafka-consumer-groups.sh --bootstrap-server localhost:9092 –list
+
+4) Details of consumer:
+
+kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-second-application
+
+
+1) Reset Offsest:
+
+kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group my-first-application --reset-offsets --to-earliest --execute --topic first_topic
+
 
